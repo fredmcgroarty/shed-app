@@ -55,7 +55,7 @@ def __relays_available():
 
 def __relay_status(relay_id):
   if __relays_available():
-    return g.relays[int(relay_id)].status
+    return g.relays[int(relay_id)].value
   else:
     return 'Relay Unavailable'
 
