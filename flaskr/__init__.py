@@ -1,21 +1,19 @@
-from flask import Flask, jsonify
-import pifacerelayplus
-app = Flask(__name__)
+# from flask import Flask, jsonify
+# app = Flask(__name__)
 
-@app.route('/relays/status')
-def relay_status():
-  return jsonify(
-    relay_0_value=1,
-    relay_1_value=1,
-    relay_2_value=0,
-    relay_3_value=0
-  )
+import os
 
-@app.route('/relays/toggle/<relay_id>')
-def toggle_relay(relay_id=None):
-  return 'hello' + relay_id
+from flask import Flask
 
+def create_app(test_config=False):
+  app = Flask(__name__, instance_relative_config=True)
+  app.config.from_mapping(SECRET_KEY='dev')
 
-@app.route('/relays/toggle/all')
-def toggle_all_relays():
-  return 'hello all'
+  if __name__ == "__main__":
+      app.run(debug=True)
+
+  from flaskr import relays
+
+  app.register_blueprint(relays.bp)
+
+  return app
