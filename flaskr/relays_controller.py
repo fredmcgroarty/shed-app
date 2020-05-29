@@ -8,6 +8,8 @@ bp = Blueprint('relays_controller', __name__, url_prefix='/relays')
 
 RELAY_IDS = list(range(0, 4))
 
+from flaskr.relay_board import get_relay_board
+
 @bp.route('/status')
 def status():
 
@@ -30,6 +32,9 @@ def toggle(relay_id=None):
 
     __toggle_relay(relay_id)
 
+    key = __relay_key(relay_id)
+    value = __relay_status(relay_id)
+    relay_dict[key] = value
 
     return jsonify(relay_dict)
 
@@ -41,11 +46,15 @@ def __relay_key(relay_id):
   return 'relay_' + str(relay_id)
 
 def __relay_status(relay_id):
-  relay = relays(int(relay_id))
+  relays = get_relay_board()
+  # import code; code.interact(local=dict(globals(), **locals()))
+  relay = relays[int(relay_id)]
+
   return relay.value
 
 def __toggle_relay(relay_id):
-  relay = relays(int(relay_id))
+  relays = get_relay_board()
+  relay = relays[int(relay_id)]
   return relay.toggle()
 
 
