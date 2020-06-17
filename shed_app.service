@@ -1,0 +1,15 @@
+[Unit]
+
+Description=Home App uWSGI
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+
+WorkingDirectory=/srv/shed_app
+Environment="PATH=/srv/shed_app/shed_appenv/bin"
+ExecStart=/srv/shed_app/venv/bin/uwsgi --ini shed_app.ini
+
+[Install]
+WantedBy=multi-user.target
